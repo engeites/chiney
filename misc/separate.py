@@ -1,9 +1,10 @@
 import jieba
 
 
-def doit(text):
-    seg_list = jieba.cut_for_search(text)
+def tokenize(text):
+    seg_list = jieba.cut(text, cut_all=False)
     return seg_list  # 全模式
 
+
 if __name__ == '__main__':
-    doit("我是你的朋友")
+    pass

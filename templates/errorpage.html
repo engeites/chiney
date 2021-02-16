@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="container">
+
+<h4 style="color:brown" >HEY! There is a trouble somewhere!</h4>
+<h5>{{ error }}</h5>
+
+</div>
+
+{% endblock %}

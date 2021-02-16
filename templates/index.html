@@ -2,9 +2,12 @@
 
 {% block content %}
 <div id="tran">
-    <h4>HELLO THERE!</h4>
+{% if current_user.is_authenticated %}
+    <h4>HELLO THERE, {{ current_user.username }}!</h4>
+{% else %}
+    <h4>HELLO THERE, ANONYM!</h4>
 </div>
-
+{% endif %}
 <div id="translation">
     {{ x }}
 </div>

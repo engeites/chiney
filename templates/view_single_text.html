@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div class="card border-primary" style="height:100%">
+
+                <p>
+                    {% for token in tokens %}
+                    <span tabindex="0"
+                      id="anxiety_{{ word }}"
+                      class="anx_open"
+                      data-toggle="popover"
+                      data-placement="top"
+                      data-trigger="focus"
+                      data-html="true"
+                      title="{{ token }}"
+                      data-content="<div id='anx-content'>Loading...</div>">{{ token }}</span>
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card border-primary" style="height:100%">
+                <p>{{ post.translation }}</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+       <button onclick="rep()">Replace</button>
+ <script>
+        function rep() {
+            document.body.innerHTML =
+                document.body.innerHTML
+                .replace(/\n/g, '<br/>');
+        }
+ </script>
+<script>
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+</script>
+
+{% endblock %}
