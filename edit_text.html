@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div class="container">
+    <h4>Пожалуйста, просмотрите текст и отредактируйте по необходимости</h4>
+    <hr>
+    <form method="post" action="{{ url_for('save_text') }}">
+        <label for="title">Заголовок текста рус/кит:</label>
+        <input type="text"
+               name="header"
+               id="title"
+               placeholder="Заголовок текста"
+               value="{{ header }}">
+        <div class="form-row" >
+            <div class="form-group col-md-6">
+                <label for="textArea">Вставьте китайский текст для обработки:</label>
+                <textarea class="form-control"
+                          id="textArea"
+                          rows="3"
+                          placeholder="汉字。。。"
+                          name="text"
+                          style="height: 78px;">{{ text }}
+                </textarea>
+                <small class="text-muted">107/1000</small>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="translationArea">Исправьте автоматический перевод:</label>
+                <textarea class="form-control"
+                          id="translationArea"
+                          rows="3"
+                          name="translation"
+                          placeholder="Тут будет гугл-перевод, который нужно поправить! (Или вставьте свой перевод)">{{ translated_text }}
+                </textarea>
+                <small class="text-muted">не забывайте про параграфы</small>
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="level">Уровень, от 1(простой) до 3(сложный)</label>
+            <select class="form-control" selected="{{ level }}" id="level" name="level">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+            </select>
+        <button type="submit" class="btn btn-primary mx-1">Подтвердить</button>
+    </form>
+
+
+</div>
+{% endblock %}

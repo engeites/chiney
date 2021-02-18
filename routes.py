@@ -6,8 +6,8 @@ from sqlalchemy.exc import IntegrityError
 
 from models import User, Text
 from misc.translate import translate
-from misc.separate import tokenize
 
+from misc.prepare_post import Handler
 
 
 @app.route('/')
@@ -26,12 +26,14 @@ def login():
             user = User.query.filter_by(username=username).first()
             print(user)
             if not user:
-                return render_template('errorpage.html', error="THIS USER DOES NOT EXIST!")
+                return render_template('errorpage.html',
+                                       error="THIS USER DOES NOT EXIST!")
             if password == user.password:
                 login_user(user)
                 return render_template('index.html')
             else:
-                return render_template('errorpage.html', error="USERNAME OR PASSWORD IS WRONG")
+                return render_template('errorpage.html',
+                                       error="USERNAME OR PASSWORD IS WRONG")
         else:
             return render_template('errorpage.html', error="FILL BOTH FIELDS!")
 
@@ -53,7 +55,8 @@ def register_user():
                 return render_template('errorpage.html', error=e)
             return render_template("index.html")
         else:
-            return render_template('errorpage.html', error="PASSWORDS ARE NOT EQUAL")
+            return render_template('errorpage.html',
+                                   error="PASSWORDS ARE NOT EQUAL")
 
 
 @app.route('/logout')
@@ -75,6 +78,10 @@ def handle_text():
     header = request.form.get('header').strip()
     level = request.form.get('level')
     text = request.form.get('main_text').strip()
+    paragraphs = text.split('\n\n')
+    for one in paragraphs:
+        print(one)
+
     translated_text = translate(text).strip()
 
     return render_template('edit_text.html',
@@ -112,8 +119,19 @@ def show_all_texts():
 @app.route('/text/id-<textid>')
 def load_text(textid: int):
 
+    # mystery_char = f"{chr(10)}{chr(13)}"
     post = Text.query.filter_by(id=int(textid)).first()
-    tokenized_text = tokenize(post.text)
-    return render_template('view_single_text.html',
-                           post=post,
-                           tokens=tokenized_text)
+    final = Handler(post)
+    bunch = final.gather_and_send()
+    par_quantity = len(bunch['tokens'])
+
+    # paragraphs = post.text.replace(mystery_char, '\n\n').split('\n\n')
+    # for i in paragraphs:
+    #     if len(i) <= 1:
+    #         paragraphs.pop(i)
+    # tokens = []
+    # for paragraph in paragraphs:
+    #     tokenized_text = tokenize(paragraph)
+    #     tokens.append(tokenized_text)
+    return render_template('view_single_text.html', data=bunch,
+                           par_quantity=par_quantity)

@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container">
+    <h4>Пожалуйста, введите текст для обработки</h4>
+    <hr>
+    <form method="POST" action="{{ url_for('handle_text') }}">
+        <div class="form-group col-md-6">
+            <label for="title">Заголовок текста</label>
+                <input type="text" name="header" id="title" placeholder="Заголовок" autocomplete="off">
+        </div>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"></span>
+          </div>
+
+          <textarea class="form-control"
+                    aria-label="With textarea"
+                    style="margin-top: 0;margin-bottom: 0;height: 225px;"
+                    id="textarea"
+                    name="main_text"
+          ></textarea>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="level">Уровень, от 1(простой) до 3(сложный)</label>
+            <select class="form-control" id="level" name="level">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+            </select>
+        </div>
+        <button class="btn btn-primary"
+                type="submit"
+                style="margin-top: 10px;"
+        >Submit form</button>
+    </form>
+</div>
+{% endblock %}
